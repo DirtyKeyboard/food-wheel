@@ -1,0 +1,17 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+nav a.active {
+    background-color: rgb(96, 165, 250);
+}
+
+nav a:not(.active):hover {
+    scale: .95;
+}
+
+@layer components {
+        .btn {
+            @apply bg-blue-400 p-4 rounded-xl text-white font-bold hover:bg-blue-600 transition-all
+        }
+}
