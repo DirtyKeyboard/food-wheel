@@ -55,9 +55,8 @@ app.post("/login", async(req, res) => {
 
 app.post("/save_recipe", authToken, async(req, res) => {
     try {
-        const idMeal = parseInt(req.body.idMeal);
-        const user = await prisma.user.update({where: {username: req.user.username}, data: {savedRecipes: {push: idMeal }}})
-    res.status(200).send({savedMeals: user.savedRecipes})
+        const user = await prisma.user.update({where: {username: req.user.username}, data: {savedRecipes: {create: {recipeId: parseInt(req.body.recipeId), name: req.body.name, thumbnail: req.body.thumbnail} }}})
+        res.status(200).send({savedRecipes: user.savedRecipes})
     }
     catch (e) {
         res.sendStatus(400)
@@ -69,7 +68,7 @@ app.post("/save_recipe", authToken, async(req, res) => {
 app.get("/saved_recipes", authToken, async(req,res) => {
     try {
         const user = await prisma.user.findUnique({where: {username: req.user.username}})
-        res.status(200).send({savedMeals: user.savedRecipes})
+        res.status(200).send({savedRecipes: user.savedRecipes})
     }
     catch(e) {
         res.sendStatus(400)

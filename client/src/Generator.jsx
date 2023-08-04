@@ -25,7 +25,11 @@ const Generator = () => {
     const saveRecipe = async () => {
         const r = await axios.post(
             "/api/save_recipe",
-            { idMeal: view.idMeal },
+            {
+                name: view.strMeal,
+                thumbnail: view.strMealThumb,
+                recipeId: view.idMeal,
+            },
             { headers: { authorization: token } }
         );
         console.log(r);

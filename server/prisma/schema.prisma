@@ -11,8 +11,17 @@ datasource db {
 }
 
 model User {
-  id           Int    @id @default(autoincrement())
-  username     String @unique
+  id           Int      @id @default(autoincrement())
+  username     String   @unique
   password     String
-  savedRecipes Int[]
+  savedRecipes Recipe[]
+}
+
+model Recipe {
+  id        Int    @id @default(autoincrement())
+  name      String
+  thumbnail String
+  recipeId  Int
+  User      User?  @relation(fields: [userId], references: [id])
+  userId    Int?
 }

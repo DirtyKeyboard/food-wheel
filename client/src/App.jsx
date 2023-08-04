@@ -3,6 +3,7 @@ import Landing from "./Landing";
 import Home from "./Home";
 import Generator from "./Generator";
 import RecipeView from "./RecipeView";
+import SavedRecipes from "./SavedRecipes";
 
 function App() {
     return (
@@ -10,6 +11,7 @@ function App() {
             <Route path="" element={<Landing />} />
             <Route path="/home" element={<Home />} />
             <Route path="/generate" element={<Generator />} />
+            <Route path="/saved" element={<SavedRecipes />} />
         </Routes>
     );
 }
