@@ -3,9 +3,9 @@ import Nav from "./Nav";
 import Wheel from "./Wheel";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { toast, ToastContainer } from "react-toastify";
 
 const Generator = () => {
-    //call axios.get('/api/saved_recipes', {headers: {authorization: token}}), if view.strMealId is in saved recipes, dont show save recipe button, take to recipe view
     const token = localStorage.getItem("token");
     const [view, setView] = React.useState(null);
     const [ingredients, setIngredients] = React.useState([]);
@@ -23,19 +23,28 @@ const Generator = () => {
         check();
     }, []);
     const saveRecipe = async () => {
-        const r = await axios.post(
-            "/api/save_recipe",
-            {
-                name: view.strMeal,
-                thumbnail: view.strMealThumb,
-                recipeId: view.idMeal,
-            },
-            { headers: { authorization: token } }
-        );
-        console.log(r);
+        try {
+            const r = await axios.post(
+                "/api/save_recipe",
+                {
+                    name: view.strMeal,
+                    thumbnail: view.strMealThumb,
+                    recipeId: view.idMeal,
+                },
+                { headers: { authorization: token } }
+            );
+            toast.success("Recipe saved successfully!", {
+                position: toast.POSITION.BOTTOM_RIGHT,
+            });
+        } catch (e) {
+            toast.error("Error! You already have saved this food!", {
+                position: toast.POSITION.BOTTOM_RIGHT,
+            });
+        }
     };
     return (
         <>
+            <ToastContainer />
             <Nav />
             {view ? (
                 <div className="flex flex-col gap-4 mt-4 text-center items-center p-4">
@@ -60,7 +69,11 @@ const Generator = () => {
                     <h1 className="text-2xl">Instructions</h1>
                     <p className="px-60">{view.strInstructions}</p>
                     <div className="flex gap-4">
-                        <button className="btn" onClick={saveRecipe}>
+                        <button
+                            id="save-recipe"
+                            className="btn"
+                            onClick={saveRecipe}
+                        >
                             Save Recipe
                         </button>
                         <button

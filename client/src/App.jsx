@@ -11,7 +11,8 @@ function App() {
             <Route path="" element={<Landing />} />
             <Route path="/home" element={<Home />} />
             <Route path="/generate" element={<Generator />} />
-            <Route path="/saved" element={<SavedRecipes />} />
+            <Route exact path="/saved" element={<SavedRecipes />} />
+            <Route path="/saved/:id" element={<RecipeView />} />
         </Routes>
     );
 }
