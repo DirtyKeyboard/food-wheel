@@ -8,10 +8,10 @@ const Card = ({ recipe, removeFood }) => {
     const nav = useNavigate();
     const deleteRecipe = async () => {
         const token = localStorage.getItem("token");
-        const r = await axios.delete(`/api/recipe/${recipe.id}`, {
+        const r = await axios.delete(`/api/recipe/${recipe.idMeal}`, {
             headers: { authorization: token },
         });
-        removeFood(recipe.id);
+        removeFood(recipe.idMeal);
         setModal(false);
         toast.success("Recipe removed successfully!");
     };
@@ -22,21 +22,21 @@ const Card = ({ recipe, removeFood }) => {
             </div>
             <div
                 onClick={() => {
-                    nav(`/saved/${recipe.id}`);
+                    nav(`/saved/${recipe.idMeal}`);
                 }}
                 className="flex flex-col gap-1 items-center text-center bg-blue-100 p-4 rounded-xl hover:bg-blue-200 hover:cursor-pointer hover:translate-y-1 transition-all ease-in-out duration-300"
             >
                 <img
-                    src={recipe.thumbnail}
+                    src={recipe.strMealThumb}
                     width={250}
                     className="rounded-xl"
                 />
-                <p>{recipe.name}</p>
+                <p>{recipe.strMeal}</p>
                 <button
-                    name={recipe.recipeId}
+                    name={recipe.idMeal}
                     onClick={(e) => {
                         e.stopPropagation();
-                        setModal({ clicked: recipe.recipeId });
+                        setModal({ clicked: recipe.idMeal });
                     }}
                     className="w-8 h-8 font-bold text-white bg-red-500 rounded-full hover:bg-red-700"
                 >

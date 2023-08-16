@@ -55,7 +55,9 @@ app.post("/login", async(req, res) => {
 
 app.post("/save_recipe", authToken, async(req, res) => {
     try {
-        const user = await prisma.user.update({where: {username: req.user.username}, data: {savedRecipes: {create: {recipeId: parseInt(req.body.recipeId), name: req.body.name, thumbnail: req.body.thumbnail} }}, include: {savedRecipes: true}})
+        const u = await prisma.user.findUnique({where : { username: req.user.username }})
+        if (u.savedRecipes.indexOf(parseInt(req.body.recipeId)) !== -1) {throw new Error}
+        const user = await prisma.user.update({where: { username: req.user.username }, data: { savedRecipes : { push: parseInt(req.body.recipeId) }}})
         res.status(200).send({savedRecipes: user.savedRecipes})
     }
     catch (e) {
@@ -67,7 +69,7 @@ app.post("/save_recipe", authToken, async(req, res) => {
 
 app.get("/saved_recipes", authToken, async(req,res) => {
     try {
-        const user = await prisma.user.findUnique({where: {username: req.user.username}, include: {savedRecipes: true}})
+        const user = await prisma.user.findUnique({where: {username: req.user.username}})
         res.status(200).send({savedRecipes: user.savedRecipes})
     }
     catch(e) {
@@ -79,7 +81,10 @@ app.get("/saved_recipes", authToken, async(req,res) => {
 app.delete("/recipe/:id", authToken, async(req,res) => {
     try {
         const id = parseInt(req.params.id)
-        const user = await prisma.user.update({where: {username: req.user.username}, data: {savedRecipes: {disconnect: {id: id}}}})
+        const user = await prisma.user.findUnique({where: {username: req.user.username}})
+        const recipes = user.savedRecipes
+        const newRecipes = recipes.filter(el => el !== id)
+        await prisma.user.update({ where: {username: req.user.username}, data: {savedRecipes: {set: newRecipes}}}) 
         res.sendStatus(201)
     }
     catch (e) {

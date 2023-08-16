@@ -27,8 +27,6 @@ const Generator = () => {
             const r = await axios.post(
                 "/api/save_recipe",
                 {
-                    name: view.strMeal,
-                    thumbnail: view.strMealThumb,
                     recipeId: view.idMeal,
                 },
                 { headers: { authorization: token } }

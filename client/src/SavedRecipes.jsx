@@ -14,8 +14,12 @@ const SavedRecipes = () => {
                 const r = await axios.get("/api/saved_recipes", {
                     headers: { authorization: token },
                 });
-                setFoods(r.data.savedRecipes);
-                console.log(r.data.savedRecipes);
+                r.data.savedRecipes.forEach(async (el) => {
+                    const r = await axios.get(
+                        `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${el}`
+                    );
+                    setFoods((f) => [...f, r.data.meals[0]]);
+                });
             } catch (e) {
                 nav("/");
             }
@@ -24,7 +28,7 @@ const SavedRecipes = () => {
     }, []);
     const removeFood = (id) => {
         const newFoods = foods.filter((el) => {
-            return el.id !== id;
+            return el.idMeal !== id;
         });
         setFoods(newFoods);
     };
@@ -33,7 +37,7 @@ const SavedRecipes = () => {
             <Nav />
             <div className="flex gap-4 p-20">
                 {foods.map((el) => (
-                    <Card recipe={el} key={el.id} removeFood={removeFood} />
+                    <Card recipe={el} key={el.idMeal} removeFood={removeFood} />
                 ))}
             </div>
         </>
