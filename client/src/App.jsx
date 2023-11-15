@@ -4,6 +4,7 @@ import Home from "./Home";
 import Generator from "./Generator";
 import RecipeView from "./RecipeView";
 import SavedRecipes from "./SavedRecipes";
+import Search from "./Search";
 
 function App() {
     return (
@@ -13,6 +14,7 @@ function App() {
             <Route path="/generate" element={<Generator />} />
             <Route exact path="/saved" element={<SavedRecipes />} />
             <Route path="/saved/:id" element={<RecipeView />} />
+            <Route path="/search" element={<Search />} />
         </Routes>
     );
 }

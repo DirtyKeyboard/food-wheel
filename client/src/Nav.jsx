@@ -17,7 +17,7 @@ const Nav = () => {
                 Saved Foods
             </NavLink>
             <NavLink
-                to="search"
+                to="/search"
                 className="text-white font-bold text-xl hover:bg-blue-400 p-4 transition-all ease-in-out duration-300"
             >
                 Search Foods
