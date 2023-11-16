@@ -42,13 +42,25 @@ const Search = () => {
                         <h1 className="p-4 text-white font-bold">Loading</h1>
                     </div>
                 ) : null}
-                {results.length > 0 ? (
-                    <>
-                        {results.map((el) => (
-                            <h1>{el.strMeal}</h1>
-                        ))}
-                    </>
-                ) : null}
+                <div className="flex flex-row flex-wrap justify-center gap-12">
+                    {results ? (
+                        <>
+                            {results.map((el) => (
+                                <Card
+                                    key={el.idMeal}
+                                    recipe={el}
+                                    saved={false}
+                                />
+                            ))}
+                        </>
+                    ) : (
+                        <>
+                            {search.length > 0 ? (
+                                <h1>Nothing found! :(</h1>
+                            ) : null}
+                        </>
+                    )}
+                </div>
             </div>
         </>
     );

@@ -3,7 +3,7 @@ import Nav from "./Nav";
 import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
 
-const RecipeView = () => {
+const RecipeView = ({ navBackTo }) => {
     const { id } = useParams();
     const nav = useNavigate();
     const [meal, setMeal] = React.useState(null);
@@ -69,7 +69,7 @@ const RecipeView = () => {
                         stroke="white"
                         className="w-12 h-12 p-2 rounded-full bg-blue-500 hover:bg-blue-200 hover:cursor-pointer transition-all ease-in-out duration-300 fixed left-2 bottom-2"
                         onClick={() => {
-                            nav("/saved");
+                            nav(navBackTo);
                         }}
                     >
                         <path

@@ -13,8 +13,15 @@ function App() {
             <Route path="/home" element={<Home />} />
             <Route path="/generate" element={<Generator />} />
             <Route exact path="/saved" element={<SavedRecipes />} />
-            <Route path="/saved/:id" element={<RecipeView />} />
+            <Route
+                path="/saved/:id"
+                element={<RecipeView navBackTo="/saved" />}
+            />
             <Route path="/search" element={<Search />} />
+            <Route
+                path="/search/view/:id"
+                element={<RecipeView navBackTo="/search" />}
+            />
         </Routes>
     );
 }

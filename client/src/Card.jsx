@@ -3,7 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 
-const Card = ({ recipe, removeFood }) => {
+const Card = ({ recipe, removeFood, saved = true }) => {
     const [modal, setModal] = React.useState(false);
     const nav = useNavigate();
     const deleteRecipe = async () => {
@@ -22,7 +22,8 @@ const Card = ({ recipe, removeFood }) => {
             </div>
             <div
                 onClick={() => {
-                    nav(`/saved/${recipe.idMeal}`);
+                    if (saved) nav(`/saved/${recipe.idMeal}`);
+                    else nav(`/search/view/${recipe.idMeal}`);
                 }}
                 className="flex flex-col gap-1 items-center text-center bg-blue-100 p-4 rounded-xl hover:bg-blue-200 hover:cursor-pointer hover:translate-y-1 transition-all ease-in-out duration-300"
             >
@@ -32,16 +33,20 @@ const Card = ({ recipe, removeFood }) => {
                     className="rounded-xl"
                 />
                 <p>{recipe.strMeal}</p>
-                <button
-                    name={recipe.idMeal}
-                    onClick={(e) => {
-                        e.stopPropagation();
-                        setModal({ clicked: recipe.idMeal });
-                    }}
-                    className="w-8 h-8 font-bold text-white bg-red-500 rounded-full hover:bg-red-700"
-                >
-                    X
-                </button>
+                <>
+                    {removeFood ? (
+                        <button
+                            name={recipe.idMeal}
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                setModal({ clicked: recipe.idMeal });
+                            }}
+                            className="w-8 h-8 font-bold text-white bg-red-500 rounded-full hover:bg-red-700"
+                        >
+                            X
+                        </button>
+                    ) : null}
+                </>
             </div>
             <div
                 id="modal"
